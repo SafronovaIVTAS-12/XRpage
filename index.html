@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>WebXR with A-Frame</title>
     <meta name="description" content="WebXR Example with A-Frame">
@@ -9,8 +10,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel='stylesheet' href='VRpage.css'>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <style>
-        #playPauseButton{
+    <!-- <style>
+        #playPauseButton {
             position: absolute;
             top: 10px;
             z-index: 1000;
@@ -19,34 +20,39 @@
             border: 1px solid black;
             cursor: pointer;
         }
+
         #playPauseButton {
-            left: 900px;
+            left: 10px;
+            
         }
+
         #xrButton {
             right: 10px;
         }
-    </style>
+
+    </style> -->
 </head>
+
 <body>
-    <header>
-        <details open>
-            <summary>360 Video</summary>
-        </details>
-        <button id="xrButton" disabled>VR NOT FOUND</button>
-    </header>
-    <a-scene >
-        <a-assets>
+    <a-scene xr-mode-ui="enterVRButton: #xrButton;">
+        <header>
+            <details open>
+                <summary>360 Video</summary>
+            </details>
+            <button id="xrButton" disabled>VR NOT FOUND</button>
+            <button id="playPauseButton">Play/Pause Video</button>
+        </header>
+        <a-assets >
             <video id="video" src="great-barrier-reef-preview.mp4" autoplay loop="true" crossorigin="anonymous"></video>
         </a-assets>
-        
+
         <a-videosphere src="#video" rotation="0 -90 0"></a-videosphere>
-        
+
         <a-entity camera look-controls>
             <a-cursor></a-cursor>
         </a-entity>
     </a-scene>
 
-    <button id="playPauseButton">Play/Pause Video</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -108,4 +114,5 @@
         });
     </script>
 </body>
+
 </html>
