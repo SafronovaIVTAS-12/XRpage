@@ -8,6 +8,30 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #playPauseButton, #xrButton {
+            position: absolute;
+            top: 10px;
+            z-index: 1000;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        #playPauseButton {
+            left: 10px;
+        }
+        #xrButton {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -15,7 +39,7 @@
             <summary>360 Video</summary>
         </details>
     </header>
-    <a-scene xr-mode-ui="enabled: false">
+    <a-scene >
         <a-assets>
             <video id="video" src="great-barrier-reef-preview.mp4" autoplay loop="true" crossorigin="anonymous"></video>
         </a-assets>
@@ -27,8 +51,8 @@
         </a-entity>
     </a-scene>
 
-    <button id="playPauseButton" style="position: absolute; top: 10px; left: 10px;">Play/Pause Video</button>
-    <button id="xrButton" style="position: absolute; top: 10px; right: 10px;" disabled>VR NOT FOUND</button>
+    <button id="playPauseButton">Play/Pause Video</button>
+    <button id="xrButton" disabled>VR NOT FOUND</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -45,8 +69,10 @@
             });
 
             if (navigator.xr) {
+                console.log('WebXR API доступен');
                 navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
                     if (supported) {
+                        console.log('VR поддерживается');
                         xrButton.innerText = 'Enter VR';
                         xrButton.disabled = false;
 
@@ -57,8 +83,12 @@
                                 onSessionStarted(session);
                             });
                         });
+                    } else {
+                        console.log('VR не поддерживается');
                     }
                 });
+            } else {
+                console.log('WebXR API не доступен');
             }
 
             function onSessionStarted(session) {
