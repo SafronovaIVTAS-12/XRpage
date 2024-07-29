@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebXR with A-Frame</title>
+    <meta name="description" content="WebXR Example with A-Frame">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+</head>
+<body>
+    <header>
+        <details open>
+            <summary>360 Video</summary>
+        </details>
+    </header>
+    <a-scene xr-mode-ui="enabled: false">
+        <a-assets>
+            <video id="video" src="great-barrier-reef-preview.mp4" autoplay loop="true" crossorigin="anonymous"></video>
+        </a-assets>
+        
+        <a-videosphere src="#video" rotation="0 -90 0"></a-videosphere>
+        
+        <a-entity camera look-controls>
+            <a-cursor></a-cursor>
+        </a-entity>
+    </a-scene>
+
+    <button id="playPauseButton" style="position: absolute; top: 10px; left: 10px;">Play/Pause Video</button>
+    <button id="xrButton" style="position: absolute; top: 10px; right: 10px;" disabled>VR NOT FOUND</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('video');
+            const playPauseButton = document.getElementById('playPauseButton');
+            const xrButton = document.getElementById('xrButton');
+
+            playPauseButton.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+
+            if (navigator.xr) {
+                navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+                    if (supported) {
+                        xrButton.innerText = 'Enter VR';
+                        xrButton.disabled = false;
+
+                        xrButton.addEventListener('click', () => {
+                            navigator.xr.requestSession('immersive-vr', {
+                                requiredFeatures: ['local-floor']
+                            }).then((session) => {
+                                onSessionStarted(session);
+                            });
+                        });
+                    }
+                });
+            }
+
+            function onSessionStarted(session) {
+                session.addEventListener('end', onSessionEnded);
+
+                let gl = document.createElement('canvas').getContext('webgl', { xrCompatible: true });
+                let xrLayer = new XRWebGLLayer(session, gl);
+
+                session.updateRenderState({ baseLayer: xrLayer });
+
+                session.requestReferenceSpace('local').then((refSpace) => {
+                    function onXRFrame(t, frame) {
+                        let pose = frame.getViewerPose(refSpace);
+                        session.requestAnimationFrame(onXRFrame);
+                    }
+                    session.requestAnimationFrame(onXRFrame);
+                });
+            }
+
+            function onSessionEnded(event) {
+                video.pause();
+            }
+        });
+    </script>
+</body>
+</html>
