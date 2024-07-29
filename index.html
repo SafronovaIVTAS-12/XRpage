@@ -7,16 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='VRpage.css'>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        header {
-            text-align: center;
-            margin-top: 20px;
-        }
-        #playPauseButton, #xrButton {
+        #playPauseButton{
             position: absolute;
             top: 10px;
             z-index: 1000;
@@ -26,7 +20,7 @@
             cursor: pointer;
         }
         #playPauseButton {
-            left: 10px;
+            left: 900px;
         }
         #xrButton {
             right: 10px;
@@ -38,6 +32,7 @@
         <details open>
             <summary>360 Video</summary>
         </details>
+        <button id="xrButton" disabled>VR NOT FOUND</button>
     </header>
     <a-scene >
         <a-assets>
@@ -52,7 +47,6 @@
     </a-scene>
 
     <button id="playPauseButton">Play/Pause Video</button>
-    <button id="xrButton" disabled>VR NOT FOUND</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
