@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <a-scene >
+    <a-scene xr-mode-ui="enterVRButton: #xrButton;">
         <!-- <header>
             <details open>
                 <summary>360 Video</summary>
@@ -55,7 +55,7 @@
     </a-scene>
 
 
-    <!-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('video');
             const playPauseButton = document.getElementById('playPauseButton');
@@ -86,6 +86,7 @@
                         });
                     } else {
                         console.log('VR не поддерживается');
+                        xrButton.innerText = 'VR не поддерживается';
                     }
                 });
             } else {
@@ -113,7 +114,7 @@
                 video.pause();
             }
         });
-    </script> -->
+    </script>
     <script>
         function createExitVRButton(onClick) {
             var exitButton;
