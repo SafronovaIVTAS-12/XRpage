@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```javascript
 function createExitVRButton (onClick) {
-    var exitButton;
+    var exitButton; // здесь var, так как в xr-mode-ui.js в aframe используется также var
     var wrapper;
 
     wrapper = document.createElement('div');
