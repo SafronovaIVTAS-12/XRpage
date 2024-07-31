@@ -35,14 +35,14 @@
 </head>
 
 <body>
-    <a-scene xr-mode-ui="enterVRButton: #xrButton;">
-        <header>
+    <a-scene >
+        <!-- <header>
             <details open>
                 <summary>360 Video</summary>
             </details>
             <button id="xrButton" disabled>VR NOT FOUND</button>
             <button id="playPauseButton">Play/Pause Video</button>
-        </header>
+        </header> -->
         <a-assets>
             <video id="video" src="great-barrier-reef-preview.mp4" autoplay loop="true" crossorigin="anonymous"></video>
         </a-assets>
@@ -55,7 +55,7 @@
     </a-scene>
 
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('video');
             const playPauseButton = document.getElementById('playPauseButton');
@@ -113,7 +113,7 @@
                 video.pause();
             }
         });
-    </script>
+    </script> -->
     <script>
         function createExitVRButton(onClick) {
             var exitButton;
