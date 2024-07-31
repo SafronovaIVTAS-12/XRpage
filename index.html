@@ -10,27 +10,28 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel='stylesheet' href='VRpage.css'>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- <script src="xr-mode-ui.js"></script> -->
     <!-- <style>
-        #playPauseButton {
-            position: absolute;
-            top: 10px;
-            z-index: 1000;
-            padding: 10px;
-            background-color: white;
-            border: 1px solid black;
-            cursor: pointer;
-        }
+            #playPauseButton {
+                position: absolute;
+                top: 10px;
+                z-index: 1000;
+                padding: 10px;
+                background-color: white;
+                border: 1px solid black;
+                cursor: pointer;
+            }
 
-        #playPauseButton {
-            left: 10px;
-            
-        }
+            #playPauseButton {
+                left: 10px;
+                
+            }
 
-        #xrButton {
-            right: 10px;
-        }
+            #xrButton {
+                right: 10px;
+            }
 
-    </style> -->
+        </style> -->
 </head>
 
 <body>
@@ -42,7 +43,7 @@
             <button id="xrButton" disabled>VR NOT FOUND</button>
             <button id="playPauseButton">Play/Pause Video</button>
         </header>
-        <a-assets >
+        <a-assets>
             <video id="video" src="great-barrier-reef-preview.mp4" autoplay loop="true" crossorigin="anonymous"></video>
         </a-assets>
 
@@ -113,6 +114,31 @@
                 video.pause();
             }
         });
+    </script>
+    <script>
+        function createExitVRButton(onClick) {
+            var exitButton;
+            var wrapper;
+
+            wrapper = document.createElement('div');
+            wrapper.classList.add('a-exit-vr');
+            wrapper.setAttribute(constants.AFRAME_INJECTED, '');
+            exitButton = document.createElement('button');
+            exitButton.className = 'a-exit-vr-button';
+            exitButton.setAttribute('title', 'Exit VR mode');
+            exitButton.setAttribute(constants.AFRAME_INJECTED, '');
+            if (utils.device.isMobile()) { applyStickyHoverFix(exitButton); }
+            wrapper.appendChild(exitButton);
+            exitButton.addEventListener('click', function (evt) {
+                onClick();
+                evt.stopPropagation();
+            });
+            return wrapper;
+        }
+
+        document.body.appendChild(createExitVRButton(() => {
+            document.querySelector('a-scene').exitVR();
+        }));
     </script>
 </body>
 
